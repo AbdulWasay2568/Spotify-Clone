@@ -1,4 +1,3 @@
-console.log("Welcome to Spotify");
 
 let songindex = 0;
 let audioElement = new Audio('./Songs/1.mp3');
