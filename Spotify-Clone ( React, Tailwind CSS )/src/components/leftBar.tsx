@@ -1,9 +1,16 @@
-export default function LeftBar({ songs, currentSong, setCurrentSong }) {
+import { Song } from '../interface/songs.interface'
 
+interface LeftBarProps {
+  songs: Song[];
+  currentSong: Song;
+  setCurrentSong: (song: Song) => void;
+}
+
+export default function LeftBar({ songs, currentSong, setCurrentSong }: LeftBarProps){
     const sortedSongs = [currentSong, ...songs.filter(song => song !== currentSong)];
 
     return (
-        <div className="bg-black text-white font-semibold min-h-screen flex flex-col">
+        <div className="bg-whi text-white font-semibold min-h-screen flex flex-col">
             <div className="flex justify-between px-4 py-2 sticky top-0 bg-[#121212] rounded-lg">
                 <div className="text-white cursor-pointer">Home</div>
                 <div className="text-gray-500 cursor-pointer hover:text-white transition duration-300">Search</div>

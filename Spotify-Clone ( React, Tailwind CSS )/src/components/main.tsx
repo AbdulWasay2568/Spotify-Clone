@@ -1,10 +1,17 @@
-export default function Main({ songs, currentSong, setCurrentSong }) {
+import { Song } from '../interface/songs.interface'
+
+interface mainProps {
+  songs: Song[];
+  currentSong: Song;
+  setCurrentSong: (song: Song) => void;
+}
+export default function Main({ songs, currentSong, setCurrentSong } :mainProps) {
   return (
     <div className="min-h-screen bg-[#121212] text-white p-4">
       {/* Category Section */}
       <div className="flex flex-wrap gap-4 mb-4">
-        <button className="px-4 py-2 bg-[#6c5ce7] rounded">All</button>
-        <button className="px-4 py-2 bg-[#6c5ce7] rounded">Music</button>
+        <button className="bg-[#223434] text-white rounded-xl py-1 px-4">All</button>
+        <button className="bg-[#223434] text-white rounded-xl py-1 px-4">Music</button>
       </div>
 
       {/* Songs Section */}

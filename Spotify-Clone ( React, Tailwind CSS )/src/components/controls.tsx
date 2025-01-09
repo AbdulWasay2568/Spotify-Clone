@@ -4,8 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { FaVolumeHigh } from "react-icons/fa6";
 import { FaVolumeXmark } from "react-icons/fa6";
 
-export default function ControlsContainer({ currentSong, setCurrentSong, songs }) {
-  const audioRef = useRef(null);
+import { Song } from '../interface/songs.interface'
+
+interface ControlsContainerProps {
+  songs: Song[];
+  currentSong: Song;
+  setCurrentSong: (song: Song) => void;
+}
+
+export default function ControlsContainer({ currentSong, setCurrentSong, songs }: ControlsContainerProps) {
+  const audioRef = useRef<HTMLAudioElement | null>(null); 
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -32,23 +40,31 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
   };
 
   const handleTimeUpdate = () => {
-    setProgress(audioRef.current.currentTime);
+    if (audioRef.current) {
+      setProgress(audioRef.current.currentTime);
+    }
   };
 
   const handleLoadedMetadata = () => {
-    setDuration(audioRef.current.duration);
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
   };
 
-  const handleVolumeChange = (e) => {
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    audioRef.current.volume = newVolume;
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
     setIsMuted(newVolume === 0);
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    audioRef.current.muted = !isMuted;
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+    }
   };
 
   const playNextSong = () => {
@@ -120,7 +136,11 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
             value={progress}
             min="0"
             max={duration}
-            onChange={(e) => (audioRef.current.currentTime = e.target.value)}
+            onChange={(e) => {
+              if (audioRef.current) {
+                audioRef.current.currentTime = parseFloat(e.target.value);
+              }
+            }}
             className="w-[80%] h-1.5 bg-[#b3b3b3] rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#1db954]"
           />
           <span className="text-sm">{Math.floor(duration / 60)}:{(duration % 60).toFixed(0).padStart(2, '0')}</span>
@@ -153,7 +173,7 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
         onEnded={handleSongEnd} 
       >
         <source src={currentSong.filepath} type="audio/mp3" />
-        Your browser does not support the audio element.
+ 
       </audio>
     </div>
   );
