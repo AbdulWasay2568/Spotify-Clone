@@ -16,7 +16,7 @@ export default function Main({ songs, currentSong, setCurrentSong } :mainProps) 
 
       {/* Songs Section */}
       <div>
-        {['Recently Played', 'Made For Client'].map((section, idx) => (
+        {['Recently Played'].map((section, idx) => (
           <div key={idx} className="mb-8">
             <h2 className="text-xl font-semibold mb-2">{section}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

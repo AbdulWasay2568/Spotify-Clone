@@ -1,10 +1,11 @@
-import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
+import {
+  AiFillPlayCircle,
+  AiFillPauseCircle
+} from "react-icons/ai";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
-import { FaVolumeHigh } from "react-icons/fa6";
-import { FaVolumeXmark } from "react-icons/fa6";
-
-import { Song } from '../interface/songs.interface'
+import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
+import { Song } from '../interface/songs.interface';
 
 interface ControlsContainerProps {
   songs: Song[];
@@ -30,41 +31,30 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
 
   const togglePlayPause = () => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
+      if (isPlaying) audioRef.current.pause();
+      else audioRef.current.play();
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setProgress(audioRef.current.currentTime);
-    }
+    if (audioRef.current) setProgress(audioRef.current.currentTime);
   };
 
   const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
+    if (audioRef.current) setDuration(audioRef.current.duration);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume;
-    }
+    if (audioRef.current) audioRef.current.volume = newVolume;
     setIsMuted(newVolume === 0);
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-    }
+    if (audioRef.current) audioRef.current.muted = !isMuted;
   };
 
   const playNextSong = () => {
@@ -84,55 +74,40 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
   };
 
   return (
-    <div className="bg-black text-[#b3b3b3] p-2.5 px-5 sticky bottom-0 flex justify-between items-center">
+    <div className="bg-black text-[#b3b3b3] p-4 sticky bottom-0 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 sm:gap-2">
+      
       {/* Song Info */}
-      <div className="flex items-center gap-2.5 cursor-pointer transition-colors duration-300">
+      <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto">
         <img
-          id="songPic"
           src={currentSong.coverPath}
           alt={currentSong.songName}
-          className="h-14 w-auto rounded-md"
+          className="h-14 w-14 rounded-md object-cover"
         />
-        <div className="songInfo flex flex-col justify-center gap-0.5">
-          <span id="masterSongName" className="overflow-hidden text-ellipsis text-white text-sm">
-            {currentSong.songName}
-          </span>
-          <span id="masterArtists" className="overflow-hidden text-ellipsis text-gray-400 text-sm hover:text-white">
-            {currentSong.artist}
-          </span>
+        <div className="flex flex-col min-w-0">
+          <span className="text-white text-sm truncate">{currentSong.songName}</span>
+          <span className="text-gray-400 text-sm truncate hover:text-white">{currentSong.artist}</span>
         </div>
       </div>
 
       {/* Playback Controls */}
-      <div className="flex flex-col items-center w-[45%]">
-        <div className="flex justify-center items-center gap-5 mb-2.5">
-          <i 
-            className="text-3xl cursor-pointer transition-colors duration-300 hover:text-white" 
-            id="previous" 
-            onClick={playPreviousSong}>
+      <div className="flex flex-col items-center w-full sm:w-[45%]">
+        <div className="flex justify-center items-center gap-5 mb-2">
+          <i className="text-3xl cursor-pointer hover:text-white" onClick={playPreviousSong}>
             <BiSkipPrevious />
           </i>
-          <i
-            className="text-4xl cursor-pointer transition-colors duration-300 hover:text-white"
-            id="masterPlay"
-            onClick={togglePlayPause}
-          >
+          <i className="text-4xl cursor-pointer hover:text-white" onClick={togglePlayPause}>
             {isPlaying ? <AiFillPauseCircle /> : <AiFillPlayCircle />}
           </i>
-          <i 
-            className="text-3xl cursor-pointer transition-colors duration-300 hover:text-white" 
-            id="next" 
-            onClick={playNextSong}>
+          <i className="text-3xl cursor-pointer hover:text-white" onClick={playNextSong}>
             <BiSkipNext />
           </i>
         </div>
 
         {/* Progress Bar */}
-        <div className="flex justify-center items-center w-full">
-          <span className="text-sm">{Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, '0')}</span>
+        <div className="flex items-center w-full gap-2">
+          <span className="text-xs whitespace-nowrap">{Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, '0')}</span>
           <input
             type="range"
-            id="Progressbar"
             value={progress}
             min="0"
             max={duration}
@@ -141,16 +116,16 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
                 audioRef.current.currentTime = parseFloat(e.target.value);
               }
             }}
-            className="w-[80%] h-1.5 bg-[#b3b3b3] rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#1db954]"
+            className="flex-grow h-1.5 bg-[#b3b3b3] rounded-lg cursor-pointer hover:bg-[#1db954]"
           />
-          <span className="text-sm">{Math.floor(duration / 60)}:{(duration % 60).toFixed(0).padStart(2, '0')}</span>
+          <span className="text-xs whitespace-nowrap">{Math.floor(duration / 60)}:{(duration % 60).toFixed(0).padStart(2, '0')}</span>
         </div>
       </div>
 
       {/* Volume and Mute Controls */}
-      <div className="flex flex-col items-center gap-2">
-        <button onClick={toggleMute} className="text-2xl cursor-pointer transition-colors duration-300 hover:text-white">
-          {isMuted ? <FaVolumeXmark/> : <FaVolumeHigh/>}
+      <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
+        <button onClick={toggleMute} className="text-2xl cursor-pointer hover:text-white">
+          {isMuted ? <FaVolumeXmark /> : <FaVolumeHigh />}
         </button>
         <input
           type="range"
@@ -159,21 +134,20 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
           max="1"
           step="0.01"
           onChange={handleVolumeChange}
-          className="w-24 h-1.5 bg-[#b3b3b3] rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#1db954]"
+          className="w-24 sm:w-28 h-1.5 bg-[#b3b3b3] rounded-lg cursor-pointer hover:bg-[#1db954]"
         />
       </div>
 
-      {/* Audio Element */}
+      {/* Hidden Audio Player */}
       <audio
         ref={audioRef}
         controls
         style={{ display: 'none' }}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={handleSongEnd} 
+        onEnded={handleSongEnd}
       >
         <source src={currentSong.filepath} type="audio/mp3" />
- 
       </audio>
     </div>
   );
