@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { HiOutlineHome } from 'react-icons/hi';
 
-export default function NavBar({ onOpenSidebar }) {
-    const [menuOpen, setMenuOpen] = useState(false);
-  
-    const handleMenuClick = () => {
-        setMenuOpen(!menuOpen);
-        if (!menuOpen) {
-        onOpenSidebar();
-        }
-    };
+
+export default function NavBar({ onOpenSidebar, searchQuery, setSearchQuery }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setMenuOpen(!menuOpen);
+    if (!menuOpen) {
+      onOpenSidebar();
+    }
+  };
+
   return (
     <nav className="bg-black text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50">
       {/* Left section */}
@@ -25,10 +27,12 @@ export default function NavBar({ onOpenSidebar }) {
         <span className="hidden md:inline font-semibold text-lg">Spotify</span>
       </div>
 
-      {/* Center: Search (only visible on md+) */}
+      {/* Center: Search bar (visible on md+) */}
       <div className="hidden md:flex flex-1 max-w-md mx-4">
         <input
           type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="What do you want to play?"
           className="w-full px-4 py-2 rounded-full bg-[#2a2a2a] text-sm text-white placeholder-gray-400 focus:outline-none"
         />

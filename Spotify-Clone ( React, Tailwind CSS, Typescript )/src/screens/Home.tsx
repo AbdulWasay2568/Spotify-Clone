@@ -24,11 +24,21 @@ const Songs = [
 export default function Home() {
   const [currentSong, setCurrentSong] = useState(Songs[0]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredSongs = Songs.filter(song =>
+    song.songName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    song.artist.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="bg-black text-white font-semibold min-h-screen flex flex-col w-full">
       {/* Top Navbar */}
-      <NavBar onOpenSidebar={() => setIsSidebarOpen(true)} />
+      <NavBar
+        onOpenSidebar={() => setIsSidebarOpen(true)}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
 
       {/* Drawer for mobile sidebar */}
       {isSidebarOpen && (
@@ -40,7 +50,12 @@ export default function Home() {
             </button>
           </div>
           <div className="overflow-y-auto flex-grow px-2 ">
-            <LeftBar songs={Songs} currentSong={currentSong} setCurrentSong={setCurrentSong} />
+            <LeftBar
+              songs={filteredSongs}
+              currentSong={currentSong}
+              setCurrentSong={setCurrentSong}
+              searchQuery={searchQuery}
+            />
           </div>
         </div>
       )}
@@ -48,21 +63,38 @@ export default function Home() {
       {/* Main layout for desktop */}
       <div className="hidden md:flex flex-row gap-4 px-4 py-2 flex-grow overflow-hidden">
         <div className="w-1/4">
-          <LeftBar songs={Songs} currentSong={currentSong} setCurrentSong={setCurrentSong} />
+          <LeftBar
+            songs={filteredSongs}
+            currentSong={currentSong}
+            setCurrentSong={setCurrentSong}
+            searchQuery={searchQuery}
+          />
         </div>
         <div className="w-3/4">
-          <Main songs={Songs} currentSong={currentSong} setCurrentSong={setCurrentSong} />
+          <Main
+            songs={filteredSongs}
+            currentSong={currentSong}
+            setCurrentSong={setCurrentSong}
+          />
         </div>
       </div>
 
-      {/* Main content for mobile (without sidebar) */}
+      {/* Main content for mobile */}
       <div className="block md:hidden px-4 py-2">
-        <Main songs={Songs} currentSong={currentSong} setCurrentSong={setCurrentSong} />
+        <Main
+          songs={filteredSongs}
+          currentSong={currentSong}
+          setCurrentSong={setCurrentSong}
+        />
       </div>
 
       {/* Controls at bottom */}
       <div className="sticky bottom-0 w-full z-20">
-        <ControlsContainer songs={Songs} currentSong={currentSong} setCurrentSong={setCurrentSong} />
+        <ControlsContainer
+          songs={filteredSongs}
+          currentSong={currentSong}
+          setCurrentSong={setCurrentSong}
+        />
       </div>
     </div>
   );
