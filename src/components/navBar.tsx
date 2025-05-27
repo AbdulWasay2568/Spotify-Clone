@@ -2,39 +2,32 @@ import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { HiOutlineHome } from 'react-icons/hi';
 
-
 type NavBarProps = {
-  onOpenSidebar: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 };
 
-export default function NavBar({ onOpenSidebar, searchQuery, setSearchQuery }: NavBarProps) {
+export default function NavBar({ searchQuery, setSearchQuery }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
-    if (!menuOpen) {
-      onOpenSidebar();
-    }
+
   };
 
   return (
-    <nav className="bg-black text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50">
-      {/* Left section */}
+    <nav className="bg-black text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2 sticky top-0 z-50">
+      {/* Left section: Menu + Logo */}
       <div className="flex items-center gap-4">
-        {/* Hamburger for mobile */}
         <button className="md:hidden" onClick={handleMenuClick}>
           {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
         </button>
-
-        {/* Spotify Logo or Home Icon */}
         <HiOutlineHome size={24} className="text-white" />
         <span className="hidden md:inline font-semibold text-lg">Spotify</span>
       </div>
 
-      {/* Center: Search bar (visible on md+) */}
-      <div className="hidden md:flex flex-1 max-w-md mx-4">
+      {/* Search bar (inline on all screens) */}
+      <div className="flex-1 min-w-[150px] max-w-md mx-2">
         <input
           type="text"
           value={searchQuery}
@@ -44,23 +37,25 @@ export default function NavBar({ onOpenSidebar, searchQuery, setSearchQuery }: N
         />
       </div>
 
-      {/* Right section */}
-      <div className="flex items-center gap-4">
-        <button className="hidden md:block text-sm hover:underline">Install App</button>
-        <button className="hidden md:block text-sm font-bold hover:underline">Sign up</button>
+      {/* Right section (hidden in mobile, shown in sidebar) */}
+      <div className="hidden md:flex items-center gap-4">
+        <button className="text-sm hover:underline">Install App</button>
+        <button className="text-sm font-bold hover:underline">Sign up</button>
         <button className="bg-white text-black text-sm font-semibold rounded-full px-4 py-1 hover:scale-105 transition">
           Log in
         </button>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile Drawer */}
       {menuOpen && (
-        <div className="absolute top-full left-0 w-full bg-[#181818] text-white p-4 flex flex-col gap-4 md:hidden z-40">
+        <div className="flex flex-col gap-4 md:hidden bg-[#181818] text-white p-4 w-full z-40">
           <button className="text-left text-sm hover:underline">Home</button>
-          <button className="text-left text-sm hover:underline">Search</button>
           <button className="text-left text-sm hover:underline">Library</button>
           <button className="text-left text-sm hover:underline">Install App</button>
           <button className="text-left text-sm font-bold hover:underline">Sign up</button>
+          <button className="bg-white text-black text-sm font-semibold rounded-full px-4 py-1 hover:scale-105 transition">
+            Log in
+          </button>
         </div>
       )}
     </nav>
