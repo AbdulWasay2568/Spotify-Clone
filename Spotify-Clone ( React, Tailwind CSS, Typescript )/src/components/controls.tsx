@@ -21,13 +21,19 @@ export default function ControlsContainer({ currentSong, setCurrentSong, songs }
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.play();
-      setIsPlaying(true);
+useEffect(() => {
+  if (audioRef.current) {
+    audioRef.current.load();
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          setIsPlaying(false); 
+        });
     }
-  }, [currentSong]);
+  }
+}, [currentSong]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {

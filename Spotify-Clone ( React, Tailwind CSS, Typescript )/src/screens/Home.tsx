@@ -9,16 +9,23 @@ import Mrama from '../assets/Songs/Mrama.mp3';
 import ZamaKhkulay from '../assets/Songs/zama khkulay janaana.mp3';
 import KhandaRata from '../assets/Songs/Khanda Rata Kawi.mp3';
 import WoDeSedgeWazirey from '../assets/Songs/Wo De Sedge Wazirey.mp3';
+import SansonKiMala from '../assets/Songs/Sanson ki mala pe remix Bass Boosted Nusrat Fateh Ali Khan Remix NFAK Remix.mp3';
+import Maand from '../assets/Songs/Maand Lyrics Bayaan Hasan Raheem Rovalio.mp3'
 
 import Cover1 from '../assets/Cover/1.jpg';
 import Cover2 from '../assets/Cover/2.jpg';
 import Cover3 from '../assets/Cover/3.jpg';
+import SansonKiMalaCover from '../assets/Cover/sanson ki mala.png';
+import MaandCover from '../assets/Cover/Maand.png';
+
 
 const Songs = [
   { songName: "Mrama de tande na", artist: "Wajid Layaq", filepath: Mrama, coverPath: Cover1, description: "Some description 1" },
   { songName: "Zama Khkulay janaana", artist: "Bilal Khatak, Ali Shah", filepath: ZamaKhkulay, coverPath: Cover1, description: "Some description 2" },
   { songName: "Khanda Rata Kawi", artist: "Wajid Layaq", filepath: KhandaRata, coverPath: Cover2, description: "Some description 3" },
   { songName: "Wo De Sedge Wazirey", artist: "Artist 4", filepath: WoDeSedgeWazirey, coverPath: Cover3, description: "Some description 4" },
+  { songName: "Sanson Ki Mala", artist: "Wajid Layaq", filepath: SansonKiMala, coverPath: SansonKiMalaCover, description: "Some description 5" },
+  { songName: "Maand Lyrics Bayaan Hasan Raheem Rovalio", artist: "Hasan Raheem", filepath: Maand, coverPath: MaandCover, description: "Some description 6" }
 ];
 
 export default function Home() {
