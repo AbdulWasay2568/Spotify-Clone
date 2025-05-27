@@ -42,7 +42,6 @@ export default function Home() {
     <div className="bg-black text-white font-semibold min-h-screen flex flex-col w-full">
       {/* Top Navbar */}
       <NavBar
-        onOpenSidebar={() => setIsSidebarOpen(true)}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
