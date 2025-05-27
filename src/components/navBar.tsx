@@ -3,7 +3,13 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { HiOutlineHome } from 'react-icons/hi';
 
 
-export default function NavBar({ onOpenSidebar, searchQuery, setSearchQuery }) {
+type NavBarProps = {
+  onOpenSidebar: () => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+};
+
+export default function NavBar({ onOpenSidebar, searchQuery, setSearchQuery }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
